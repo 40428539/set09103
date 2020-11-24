@@ -1,0 +1,21 @@
+body {
+margin:0;
+}
+
+.sidebar {
+ margin-left: 0;
+ padding:0;
+ width: 20%;
+ position: fixed;
+ height: 100%;
+ overflow: auto;
+ border-right:1px solid #bbb;
+ text-align: center;
+}
+
+
+.content {
+ margin-left: 300;
+ padding: 1px 16px;
+ height: 300px;
+}

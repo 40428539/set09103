@@ -1,12 +1,23 @@
 <html lang="en">
 <head>
 <title>First website</title>
+<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" >
+
 </head>
 <body>
-	<!-- This is a comment -->
+	<div class="sidebar">
 	<h1>This is my first website with python</h1>
-
-{{content}}
+	  <nav>
+	   <ul class="nmenu">
+		   <li><a href="{{ url_for('link1') }}">link1</a></li>
+		   <li><a href="{{ url_for('link2') }}">link2</a></li>
+	   </ul>
+	  </nav>	  
+	</div>
+	<div class="content">
+		{%block content%}
+		{%endblock%}
+	</div>
 
 </body>
 </html>

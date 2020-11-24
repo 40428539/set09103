@@ -4,12 +4,12 @@ app = Flask(__name__)
 def base():
 
     
-    return render_template("index.html", content="""
+    return render_template("index.html")
 
-            <p> This is a paragraph but will probably 
-            end up being a nav bar </p>
+@app.route('/link1/')
+def link1():
+    return render_template('link1.html')
 
-
-
-            """ )
-
+@app.route('/link2/')
+def link2():
+    return render_template('link2.html')
