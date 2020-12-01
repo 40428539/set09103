@@ -1,6 +1,10 @@
 import sqlite3
-from flask import Flask, render_template, request 
+import bcrypt
+from functools import wraps
+from flask import Flask, render_template, request, redirect, url_for 
 app = Flask(__name__)
+salt = bcrypt.gensalt()
+
 @app.route("/")
 def index():
 
@@ -16,11 +20,18 @@ def logging():
      User = request.form['user']
      Pass = request.form['pass']
 
-     if User=="Admin" and Pass=="Admin":
-      return render_template("index.html")
-     else:
-      return render_template('login.html')
+     with sqlite3.connect('datab/dbase.db') as db:
+         cursor = db.cursor()
+         for row in db.execute("SELECT Password FROM Users WHERE Username = ?", [User]):
+             checksql = row[0]
+        
 
+     if bcrypt.checkpw(Pass.encode('utf8'), checksql):
+        db.close()
+        return render_template("index.html")
+     else:
+      db.close()   
+      return render_template('login.html') 
 
 @app.route('/register/')
 def register():
@@ -31,10 +42,12 @@ def register():
 def Register(): 
         User = request.form['user']
         Email = request.form['email']
-        Pass = request.form['pass']
+        Past = request.form['pass']
+        Pass = bcrypt.hashpw(Past.encode('utf8'), salt)
         with sqlite3.connect("datab/dbase.db") as db:
             cursor = db.cursor()
-        adduser = ("INSERT INTO Users (Username, Email, Password) VALUES ( 'User', 'Email', 'Pass')")
-        db.cursor().execute(adduser)
+            params = (User, Email, Pass)
+        db.cursor().execute("INSERT INTO Users VALUES (?, ?, ?)", params)
         db.commit()
-        return render_template('login.html')
+        db.close()
+        return redirect(url_for('login'))
