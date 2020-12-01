@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="heading">	
+<h3> Please login Below</h3>
+</div>
+
+<div class="formbox">
+	<form action="{{'logging'}}" method="post">
+		
+		<label for="user">Username:</label>
+		<input type="text" name="user" id="user"><br><br>
+		<label for="Pass">Password:</label>
+		<input type="password" name="pass" id="pass"><br><br>
+		<input type="submit" value="Submit">
+
+	</form>	
+
+</div>
+
+
+
+
+
+
+{% endblock %}

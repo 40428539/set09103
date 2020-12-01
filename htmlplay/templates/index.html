@@ -5,12 +5,23 @@
 
 </head>
 <body>
+
+	<div class="header">
+		<div class="logo">
+			<a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='#')}}" alt="logo"></a>
+		</div>
+		<div class"title">
+			<h2>Title</h2>
+		</div>
+	</div>	
 	<div class="sidebar">
-	<h1>This is my first website with python</h1>
-	  <nav>
+		<div class="userimg">
+		<img src="{{ url_for('static', filename='#') }}" alt="userimage ">
+		</div>  
+	<nav>
 	   <ul class="nmenu">
-		   <li><a href="{{ url_for('link1') }}">link1</a></li>
-		   <li><a href="{{ url_for('link2') }}">link2</a></li>
+		   <li><a href="{{ url_for('login') }}">Login</a></li>
+		   <li><a href="{{ url_for('register') }}">Register</a></li>
 	   </ul>
 	  </nav>	  
 	</div>

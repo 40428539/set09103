@@ -2,6 +2,26 @@ body {
 margin:0;
 }
 
+.header {
+display:grid;
+grid-template-columns: auto auto auto auto;
+grid-gap:10px;
+background-color:blue;
+padding:10px;
+}
+
+.header .title  {
+text-align:center;
+grid-row: 2 / span 2;
+font-size:20px;
+}
+
+.header .logo {
+text-align:left;
+padding-left:10px;
+font-size:20px;
+}
+
 .sidebar {
  margin-left: 0;
  padding:0;
@@ -11,9 +31,25 @@ margin:0;
  overflow: auto;
  border-right:1px solid #bbb;
  text-align: center;
+ background-color:lightblue;
+}
+.sidebar ul {
+list-style-type:none;
+font-size:20px;
+padding:20px 0px 20px 0px;
 }
 
+.sidebar ul a {
+display:block;
+color: #000;
+text-decoration:none;
+padding:20px 0px 20px 0px;
+}
 
+.sidebar ul a:hover {
+background-color:grey;
+color:white;
+}
 .content {
  margin-left: 300;
  padding: 1px 16px;
