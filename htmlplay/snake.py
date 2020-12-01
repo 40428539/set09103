@@ -2,15 +2,32 @@ import sqlite3
 import bcrypt
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session 
+from flask_socketio import SocketIO
+
 app = Flask(__name__)
 app.secret_key = 'ILik3Ch33s3'
+socketio = SocketIO(app)
 salt = bcrypt.gensalt()
+
+
 
 @app.route("/")
 def index():
+     return render_template("index.html")
 
-    
-    return render_template("index.html")
+@app.route("/chat/")
+def chat():
+    return render_template('chat.html')
+def messageRecieved(methods=['GET', 'POST']):
+    print('Working')
+
+
+@socketio.on('event')
+def handle_it(json, methods=['GET','POST']):
+    print('Recieved event: ' + str(json))
+    socketio.emit('my response', json, callback=messageRecieved)
+
+
 @app.route("/logout/")
 def logout():
     session.clear()
@@ -60,3 +77,6 @@ def Register():
         db.commit()
         db.close()
         return redirect(url_for('login'))
+
+if __name__=='__main__':
+    socketio.run(app, debug=True)
