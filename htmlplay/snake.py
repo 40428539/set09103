@@ -1,8 +1,9 @@
 import sqlite3
 import bcrypt
 from functools import wraps
-from flask import Flask, render_template, request, redirect, url_for 
+from flask import Flask, render_template, request, redirect, url_for, session 
 app = Flask(__name__)
+app.secret_key = 'ILik3Ch33s3'
 salt = bcrypt.gensalt()
 
 @app.route("/")
@@ -10,6 +11,10 @@ def index():
 
     
     return render_template("index.html")
+@app.route("/logout/")
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 @app.route('/login/')
 def login():
@@ -28,6 +33,10 @@ def logging():
 
      if bcrypt.checkpw(Pass.encode('utf8'), checksql):
         db.close()
+        session['user'] = User
+        session['active'] = True
+
+
         return render_template("index.html")
      else:
       db.close()   
