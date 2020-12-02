@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+{%block nav%}
+<li><a href="{{ url_for('logout') }}">Logout</a></li>
+<li><a href="{{ url_for('hallway') }}">Rooms</a></li>
+{%endblock%}
+
+{% block content %}
+<div class="heading">	
+<h3> Please login Below</h3>
+</div>
+
+<div class="formbox">
+	<form action="{{'rdoor'}}" method="post">
+		
+		<label for="rname">RoomName:</label>
+		<input type="text" name="rname" id="rname"><br><br>
+		<label for="Roompass">Password:</label>
+		<input type="password" name="rpass" id="rpass"><br><br>
+		<input type="submit" value="Submit">
+
+	</form>	
+
+</div>
+
+
+
+
+
+
+{% endblock %}

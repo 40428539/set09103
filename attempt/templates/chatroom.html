@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+{%block nav%}
+<li><a href="{{ url_for('logout') }}">Logout</a></li>
+<li><a href="{{ url_for('hallway') }}">Rooms</a></li>
+{%endblock%}
+
+{% block content %}
+
+<div class="chatbox">
+{%block chat%}
+{%endblock%}
+</div>
+
+<div class="chatform">
+	<form action="" method="post">
+		
+		<label for="chat">chat here:</label>
+		<input type="text" name="chat" id="chat"><br><br>
+		<input type="submit" value="Submit">
+
+	</form>	
+
+</div>
+
+
+
+
+
+
+{% endblock %}
