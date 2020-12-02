@@ -15,17 +15,17 @@ salt = bcrypt.gensalt()
 def index():
      return render_template("index.html")
 
-@app.route("/chat/")
-def chat():
+@app.route("/chat/", methods=['GET','POST'])
+def sessions():
     return render_template('chat.html')
-def messageRecieved(methods=['GET', 'POST']):
+def messageReceived(methods=['GET']):
     print('Working')
 
 
-@socketio.on('event')
-def handle_it(json, methods=['GET','POST']):
-    print('Recieved event: ' + str(json))
-    socketio.emit('my response', json, callback=messageRecieved)
+@socketio.on('my event')
+def handle_my_custom_event(json, methods=['GET','POST']):
+    print('Recieved my event: ' + str(json))
+    socketio.emit('my response', json, callback=messageReceived)
 
 
 @app.route("/logout/")
@@ -37,7 +37,7 @@ def logout():
 def login():
     return render_template('login.html')
 
-@app.route('/login/logging', methods=['post'])
+@app.route('/login/logging', methods=['get','post'])
 def logging():
      User = request.form['user']
      Pass = request.form['pass']
@@ -52,8 +52,6 @@ def logging():
         db.close()
         session['user'] = User
         session['active'] = True
-
-
         return render_template("index.html")
      else:
       db.close()   

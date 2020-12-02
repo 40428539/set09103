@@ -13,43 +13,25 @@
 <body>
 	<div class="header">
 		<div class="logo">
-			<a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='#')}}" alt="logo"></a>
+			<a href="{{ url_for('root') }}"><img src="{{ url_for('static', filename='img/cs.png')}}" alt="logo"></a>
 		</div>
 		<div class"title">
-			<h2>Title</h2>
+			<h2>Chat App</h2>
 		</div>
 	</div>	
 <div class="sidebar">
-<nav class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li>
-                <a href="#">Login</a>
-                </li>
-                <li>
-                <a href="#">Rooms</a>
-                </li>
-                <li>
-                <a href="#">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<nav>
+ <ul class="nmenu">
+  <li><a href="#">Login</a></li>
+  <li><a href="#">Register</a></li>
+ </ul>
+</nav>       
 </div>
+<div class="content">
 <div class="container">
     <div class="row">
         <div class="col-lg-5">
-            <form class="form-inline">
+            <form class="form">
                 <div class="form-group">
                     <label for="username">Your Name</label>
                     <input class="form-control" type="text" name="username" id="username" value="Anonymous">
@@ -63,7 +45,7 @@
                 <textarea class="form-control" rows="1" id="chatText" name="chatText" placeholder="Type a message"></textarea>
             </div>
             <button id="send" class="btn btn-primary">Send</button>
-        <form class="form-inline" id="uploadForm">
+        <form class="form" id="uploadForm">
             <div class="form-group">
                 <label class="btn btn-primary" for="my-file-selector">
                     <input class="form-control" id="my-file-selector" type="file" style="display:none;" onchange="displayFileName()" name="file">
@@ -75,7 +57,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script>

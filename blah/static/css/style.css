@@ -20,6 +20,10 @@ font-size:20px;
 text-align:left;
 padding-left:10px;
 font-size:20px;
+
+}
+.header .logo img{
+height:60px;
 }
 
 .sidebar {
@@ -39,18 +43,24 @@ font-size:20px;
 padding:20px 0px 20px 0px;
 }
 
-.sidebar ul a {
+.sidebar ul li a {
 display:block;
 color: #000;
 text-decoration:none;
 padding:20px 0px 20px 0px;
 }
 
-.sidebar ul a:hover {
+.sidebar ul li a:hover {
 background-color:grey;
 color:white;
 }
 .content {
+ margin-left: 300px;
+ padding: 1px 16px;
+ height: 300px;
+}
+
+.container {
  margin-left: 300;
  padding: 1px 16px;
  height: 300px;

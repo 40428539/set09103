@@ -1,6 +1,5 @@
 import sqlite3
 import bcrypt
-from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session 
 
 app = Flask(__name__)
@@ -19,42 +18,38 @@ def logout():
     return redirect(url_for('index'))
 @app.route('/chatroom/')
 def chatroom():
-if (session['active'] == True) and (session['inroom'] == True) :
+   if (session['active'] == True) and (session['inroom'] == True) :
     return render_template('chatroom.html')
-else:
+   else:
     return redirect(url_for('index'))
 @app.route('/hallway/')
 def hallway():
-if session['active'] == True :
+   if session['active'] == True :
     return render_template('hall.html')
-else:
+   else:
     return redirect(url_for('index'))
-@app.route('/hallway/rdoor')
+@app.route('/hallway/rdoor', methods=['post'])
 def rdoor():
-if session['active'] == True :
+   if session['active'] == True :
         Room = request.form['rname']
         Rpast = request.form['rpass']
-        RPass = bcrypt.hashpw(Past.encode('utf8'), salt)
+        RPass = bcrypt.hashpw(Rpast.encode('utf8'), salt)
         with sqlite3.connect("datab/dbase.db") as db:
             cursor = db.cursor()
-		    for row in db.execute("SELECT RoomPass FROM RoomList WHERE RoomName = ?", [Room]):
-             checkroom = row[0]
-        	 if bcrypt.checkpw(Pass.encode('utf8'), checkroom):
-			  session('inroom') = True
-			  session('Rname') = Rname
-			  db.close() 
-			  return redirect(url_for('chatroom'))
-			 else: 
-				params = (Room, RPass)
-				db.cursor().execute("INSERT INTO RoomList VALUES (?, ?)", params)
-				db.commit()
-				db.close()
-				return redirect(url_for('hallway'))
-	
-	
-else:
+            for row in db.execute("SELECT RoomPass FROM RoomList WHERE RoomName = ?", [Room]):
+                 checkroom = row[0]
+                 if bcrypt.checkpw(Pass.encode('utf8'), checkroom):
+                  session['inroom'] = True
+                  session['Rname'] = Rname 
+                  return redirect(url_for('chatroom'))
+                 else: 
+                  params = (Room, RPass)
+                  db.cursor().execute("INSERT INTO RoomList VALUES (?, ?)", params)
+                  db.commit()
+                 return redirect(url_for('hallway'))
+   else:
     return redirect(url_for('index'))
-		
+
 @app.route('/login/')
 def login():
     return render_template('login.html')
@@ -70,16 +65,16 @@ def logging():
              checksql = row[0]
         
 
-     if bcrypt.checkpw(Pass.encode('utf8'), checksql):
-        db.close()
-        session['user'] = User
-        session['active'] = True
+         if bcrypt.checkpw(Pass.encode('utf8'), checksql):
+           
+           session['user'] = User
+           session['active'] = True
 
 
-        return redirect(url_for('index'))
-     else:
-      db.close()   
-      return redirect(url_for('login'))
+           return redirect(url_for('index'))
+         else:
+           db.close()   
+           return redirect(url_for('login'))
 
 @app.route('/register/')
 def register():
@@ -100,5 +95,3 @@ def Register():
         db.close()
         return redirect(url_for('login'))
 
-if __name__=='__main__':
-    socketio.run(app, debug=True)

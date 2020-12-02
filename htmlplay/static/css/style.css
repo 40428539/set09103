@@ -53,5 +53,13 @@ color:white;
 .content {
  margin-left: 300;
  padding: 1px 16px;
- height: 300px;
 }
+.message_holder{
+height: 300px;
+padding 5px;
+color: black;
+background-color: lightgrey;
+}
+.chatform {
+}
+
