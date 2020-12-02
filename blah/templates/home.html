@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chat System</title>
+<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="header">
+		<div class="logo">
+			<a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='#')}}" alt="logo"></a>
+		</div>
+		<div class"title">
+			<h2>Title</h2>
+		</div>
+	</div>	
+<div class="sidebar">
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                <a href="#">Login</a>
+                </li>
+                <li>
+                <a href="#">Rooms</a>
+                </li>
+                <li>
+                <a href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-5">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="username">Your Name</label>
+                    <input class="form-control" type="text" name="username" id="username" value="Anonymous">
+                </div>
+            </form>
+            <div class="panel panel-default">
+                <div id="panelBody" class="panel-body">
+                </div>
+             </div>
+            <div class="form-group">
+                <textarea class="form-control" rows="1" id="chatText" name="chatText" placeholder="Type a message"></textarea>
+            </div>
+            <button id="send" class="btn btn-primary">Send</button>
+        <form class="form-inline" id="uploadForm">
+            <div class="form-group">
+                <label class="btn btn-primary" for="my-file-selector">
+                    <input class="form-control" id="my-file-selector" type="file" style="display:none;" onchange="displayFileName()" name="file">
+                    Browse
+                </label>
+                <span class='label label-info' id="upload-file-info"></span>
+			</div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script>
+var interval = 4000; //4 seconds
+
+function uploadFile() {
+    var fileData = new FormData(jQuery('form')[1]);
+
+    $.ajax({
+        url: "{{ url_for('uploadFile') }}",
+        data: fileData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: "POST",
+        success: function(data) {
+            var control = $("#my-file-selector");
+            control.replaceWith( control = control.clone( true ) );
+            $("#upload-file-info").text('');
+
+        }
+    });
+}
+function sendMessage() {
+    $.ajax({
+        url: "{{ url_for('receiveMessage') }}", 
+        type: "POST", 
+        data: {
+        'chatText': $("#chatText").val(),
+        'username': $("#username").val()
+        },
+        success: function() {
+            recvMessage(),
+            $("#chatText").val('');
+        }
+    });
+}
+
+function recvMessage() {
+    $.ajax({
+        url: "{{ url_for('sendMessagesList') }}",
+        type: "GET",
+        success: function(result) {
+            $("#panelBody").html(result);            
+        },
+        complete: function(result) {
+            setTimeout(recvMessage, interval);
+        }
+    });
+}
+
+$(document).ready(function() {
+    $("#chatText").keypress(function(e) {
+        if (e.keyCode == 13) {
+            $("#send").click();
+        }
+    });
+    $("button").click(sendMessage);
+    $("button").click(uploadFile);
+    setTimeout(recvMessage, interval);
+});
+
+function displayFileName() {
+   var name = $('#my-file-selector').val().split('\\').pop(); 
+
+   $('#upload-file-info').html(name);
+}
+</script>
+
+</body>
+</html>
+
+
